@@ -22,7 +22,7 @@ public class Student {
 
 
 
-    public Student(int id, String name, String email, String address) {
+    public Student(String name, String email, String address) {
         this.id = StudentSequencer.nextStudentId();
         this.name = name;
         this.email = email;
