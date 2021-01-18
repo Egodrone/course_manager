@@ -28,7 +28,7 @@ public class Course {
 
 
 
-    public Course(int id, String courseName, LocalDate startDate, int weekDuration, Set<String> students) {
+    public Course(String courseName, LocalDate startDate, int weekDuration, Set<String> students) {
         this.id = CourseSequencer.nextCourseId();
         this.courseName = courseName;
         this.startDate = startDate;
