@@ -13,6 +13,8 @@ import se.lexicon.course_manager_assignment.dto.views.CourseView;
 import java.time.LocalDate;
 import java.util.List;
 
+
+
 @Service
 public class CourseManager implements CourseService {
 
@@ -27,58 +29,83 @@ public class CourseManager implements CourseService {
         this.converters = converters;
     }
 
+
+
     @Override
     public CourseView create(CreateCourseForm form) {
         return null;
     }
+
+
 
     @Override
     public CourseView update(UpdateCourseForm form) {
         return null;
     }
 
+
+
     @Override
     public List<CourseView> searchByCourseName(String courseName) {
         return null;
     }
+
+
 
     @Override
     public List<CourseView> searchByDateBefore(LocalDate end) {
         return null;
     }
 
+
+
     @Override
     public List<CourseView> searchByDateAfter(LocalDate start) {
         return null;
     }
+
+
 
     @Override
     public boolean addStudentToCourse(int courseId, int studentId) {
         return false;
     }
 
+
+
     @Override
     public boolean removeStudentFromCourse(int courseId, int studentId) {
         return false;
     }
+
+
 
     @Override
     public CourseView findById(int id) {
         return null;
     }
 
+
+
     @Override
     public List<CourseView> findAll() {
         return null;
     }
+
+
 
     @Override
     public List<CourseView> findByStudentId(int studentId) {
         return null;
     }
 
+
+
     @Override
     public boolean deleteCourse(int id) {
         return false;
     }
+
+
+
 }
