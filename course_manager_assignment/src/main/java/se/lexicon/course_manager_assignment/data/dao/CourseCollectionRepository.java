@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 
 
-public class CourseCollectionRepository implements CourseDao{
+public class CourseCollectionRepository implements CourseDao {
 
     private Collection<Course> courses;
 
@@ -23,30 +23,64 @@ public class CourseCollectionRepository implements CourseDao{
 
     @Override
     public Course createCourse(String courseName, LocalDate startDate, int weekDuration) {
+        Course c1 = new Course(courseName, startDate, weekDuration);
+        courses.add(c1);
 
-        return null;
+        return c1;
     }
 
 
 
     @Override
     public Course findById(int id) {
+        Course result = null;
 
-        return null;
+        if (id > 0) {
+            for (Course c : courses) {
+                if (c.getId() == id) {
+                    result = c;
+                }
+            }
+        }
+
+        return result;
     }
 
 
 
     @Override
     public Collection<Course> findByNameContains(String name) {
-        return null;
+        Collection<Course> result = new HashSet<>();
+
+        for (Course c : courses) {
+            if (c.getCourseName().contains(name)) {
+                result.add(c);
+            }
+        }
+
+        return result;
     }
 
 
 
     @Override
     public Collection<Course> findByDateBefore(LocalDate end) {
-        return null;
+        Collection<Course> result = new HashSet<>();
+        LocalDate endDate;
+
+        if (end == null) {
+            throw new IllegalArgumentException(" Invalid date ");
+        }
+
+        for (Course c : courses) {
+            endDate = c.getStartDate().plusWeeks(c.getWeekDuration());
+            System.out.println(endDate);
+            if (endDate.isEqual(endDate) || end.isBefore(endDate)) {
+                result.add(c);
+            }
+        }
+
+        return result;
     }
 
 
@@ -83,4 +117,7 @@ public class CourseCollectionRepository implements CourseDao{
     public void clear() {
         this.courses = new HashSet<>();
     }
+
+
+
 }
