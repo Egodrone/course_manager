@@ -103,7 +103,24 @@ public class CourseCollectionRepositoryTest {
 
 
     @Test
+    public void test_findAll() {
+        Collection<Course> courses = new HashSet<>();
+        CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        courseRepository.createCourse("Java", date, 15);
+        courseRepository.createCourse("Python", date, 10);
+        courseRepository.createCourse("BASH", date, 30);
+
+        Collection<Course> actual = courseRepository.findAll();
+        int expected = 3;
+        assertEquals( expected, actual.size());
+    }
+
+
+
+    @Test
     public void test_findByDateBefore() {
+        //TODO: check if it correct
         Collection<Course> courses = new HashSet<>();
         CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -120,6 +137,45 @@ public class CourseCollectionRepositoryTest {
 
     }
 
+
+
+    @Test
+    public void test_findByStudentId() {
+        // Todo: do the test
+    }
+
+
+
+    @Test
+    public void test_removeCourse() {
+        // todo: do the remove test
+    }
+
+
+
+    @Test
+    public void test_findByDateAfter() {
+        // todo: do the findByDateAfter test
+    }
+
+
+
+    @Test
+    public void test_clear() {
+        int expected = 0;
+        Collection<Course> courses = new HashSet<>();
+        CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        courseRepository.createCourse("Java", date, 15);
+        courseRepository.createCourse("Python", date, 10);
+        courseRepository.createCourse("BASH", date, 30);
+
+        Collection<Course> actual = courseRepository.findAll();
+        assertEquals(3, actual.size());
+        courseRepository.clear();
+        actual = courseRepository.findAll();
+        assertEquals(expected, actual.size());
+    }
 
 
     @AfterEach
