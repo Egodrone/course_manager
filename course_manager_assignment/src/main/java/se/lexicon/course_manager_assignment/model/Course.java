@@ -4,9 +4,7 @@ package se.lexicon.course_manager_assignment.model;
 
 import se.lexicon.course_manager_assignment.data.sequencers.CourseSequencer;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 
 
@@ -16,20 +14,38 @@ public class Course {
     private String courseName;
     private LocalDate startDate;
     private int weekDuration;
-
-    Set<String> students = new HashSet<>();
-
+    private Collection<Student> students = new HashSet<>();
 
 
 
-    public Course(int id) {
+    public Course() {
         this.id = CourseSequencer.nextCourseId();
     }
 
 
 
-    public Course(String courseName, LocalDate startDate, int weekDuration, Set<String> students) {
+    public Course(String courseName, LocalDate startDate, int weekDuration, Collection<Student> students) {
         this.id = CourseSequencer.nextCourseId();
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.weekDuration = weekDuration;
+        this.students = students;
+    }
+
+
+
+    public Course(String courseName, LocalDate startDate, int weekDuration) {
+        this.id = CourseSequencer.nextCourseId();
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.weekDuration = weekDuration;
+        //this.students = students;
+    }
+
+
+
+    public Course(int id, String courseName, LocalDate startDate, int weekDuration, Collection<Student> students) {
+        this.id = id;
         this.courseName = courseName;
         this.startDate = startDate;
         this.weekDuration = weekDuration;
@@ -80,26 +96,49 @@ public class Course {
 
 
 
-    public Set<String> getStudents() {
+    public Collection<Student> getStudents() {
         return students;
     }
 
 
 
-    public void setStudents(Set<String> students) {
+    public void setStudents(Collection<Student> students) {
         this.students = students;
     }
 
 
 
-    public boolean enrollStudent(String student) {
-        return true;
+    public boolean enrollStudent(Student student) {
+        boolean status = false;
+
+        if (student == null) {
+            throw new IllegalArgumentException(" Student object is null ");
+        } else if (student.getId() <= 0) {
+            throw new IllegalArgumentException(" Student id is not valid ");
+        }
+        if (student.getId() > 0) {
+            students.add(student);
+            status = true;
+        }
+
+        return status;
     }
 
 
 
-    public boolean unenrollStudent(String student) {
-        return true;
+    public boolean unenrollStudent(Student student) {
+        boolean isDelete = false;
+        Iterator<Student> iterator = students.iterator();
+
+        while (iterator.hasNext()) {
+            Student result = iterator.next();
+            if (result.equals(student)) {
+                iterator.remove();
+                isDelete = true;
+            }
+        }
+
+        return isDelete;
     }
 
 
