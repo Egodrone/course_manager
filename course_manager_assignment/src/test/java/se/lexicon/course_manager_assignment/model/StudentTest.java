@@ -2,6 +2,7 @@ package se.lexicon.course_manager_assignment.model;
 
 
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import se.lexicon.course_manager_assignment.data.sequencers.StudentSequencer;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,9 +13,15 @@ public class StudentTest {
 
 
 
+    @BeforeEach
+    void setUp() {
+        StudentSequencer.setStudentSequencer(0);
+    }
+
+
+
     @Test
     public void test_setters_getters_id() {
-        StudentSequencer.setStudentSequencer(0);
         Student s1 = new Student();
         s1.setName("Rocky");
         s1.setEmail("rockyBalboa@gmail.com");
@@ -29,7 +36,6 @@ public class StudentTest {
 
     @Test
     public void test_equals_hashCode() {
-        StudentSequencer.setStudentSequencer(0);
         Student x = new Student("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         Student y = new Student("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         // Different id's should give false
@@ -41,7 +47,6 @@ public class StudentTest {
 
     @Test
     public void test_equals() {
-        StudentSequencer.setStudentSequencer(0);
         System.out.println();
         Student x = new Student("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         Student y = new Student("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
@@ -54,7 +59,6 @@ public class StudentTest {
 
     @Test
     public void test_toString() {
-        StudentSequencer.setStudentSequencer(0);
         Student x = new Student("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         String expected = "Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}";
         System.out.println(x.toString());
