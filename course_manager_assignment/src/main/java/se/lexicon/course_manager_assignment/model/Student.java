@@ -9,16 +9,10 @@ import java.util.Objects;
 
 public class Student {
 
-    private final int id;
+    private int id;
     private String name;
     private String email;
     private String address;
-
-
-
-    public Student(int id) {
-        this.id = StudentSequencer.nextStudentId();
-    }
 
 
 
@@ -29,6 +23,11 @@ public class Student {
         this.address = address;
     }
 
+
+
+    public Student() {
+        id = StudentSequencer.nextStudentId();
+    }
 
 
     public int getId() {
