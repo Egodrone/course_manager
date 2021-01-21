@@ -3,10 +3,12 @@ package se.lexicon.course_manager_assignment.data.dao;
 
 
 import se.lexicon.course_manager_assignment.model.Course;
+import se.lexicon.course_manager_assignment.model.Student;
+import se.lexicon.course_manager_assignment.data.dao.StudentCollectionRepository;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-
+import java.util.Iterator;
 
 
 public class CourseCollectionRepository implements CourseDao {
@@ -87,6 +89,8 @@ public class CourseCollectionRepository implements CourseDao {
 
     @Override
     public Collection<Course> findByDateAfter(LocalDate start) {
+        //TODO: find by date after
+        Collection<Course> result = new HashSet<>();
         return null;
     }
 
@@ -94,21 +98,57 @@ public class CourseCollectionRepository implements CourseDao {
 
     @Override
     public Collection<Course> findAll() {
-        return null;
+        Collection<Course> result = new HashSet<>();
+
+        for (Course c : courses) {
+            result.add(c);
+        }
+
+        return result;
     }
 
 
 
     @Override
     public Collection<Course> findByStudentId(int studentId) {
-        return null;
+        Collection<Course> result = new HashSet<>();
+
+        if (studentId <= 0) {
+            throw new IllegalArgumentException(" Invalid studentId ");
+        }
+
+        for (Course c : courses) {
+            for (Student s : c.getStudents()) {
+                if (s.getId() == studentId) {
+                    result.add(c);
+                }
+            }
+        }
+
+        return result;
     }
 
 
 
     @Override
     public boolean removeCourse(Course course) {
-        return false;
+        boolean isRemoved = false;
+
+        if (course == null) {
+            throw new IllegalArgumentException(" Invalid course ");
+        }
+
+        Iterator<Course> iterator = courses.iterator();
+
+        while (iterator.hasNext()) {
+            Course result = iterator.next();
+            if (result.equals(courses)) {
+                iterator.remove();
+                isRemoved = true;
+            }
+        }
+
+        return isRemoved;
     }
 
 
