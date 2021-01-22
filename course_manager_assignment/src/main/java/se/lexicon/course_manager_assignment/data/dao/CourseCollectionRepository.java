@@ -89,9 +89,19 @@ public class CourseCollectionRepository implements CourseDao {
 
     @Override
     public Collection<Course> findByDateAfter(LocalDate start) {
-        //TODO: find by date after
         Collection<Course> result = new HashSet<>();
-        return null;
+
+        if (start == null) {
+            throw new IllegalArgumentException(" Invalid date ");
+        }
+
+        for (Course c : courses) {
+            if (c.getStartDate().isEqual(start)) {
+                result.add(c);
+            }
+        }
+
+        return result;
     }
 
 
@@ -142,7 +152,7 @@ public class CourseCollectionRepository implements CourseDao {
 
         while (iterator.hasNext()) {
             Course result = iterator.next();
-            if (result.equals(courses)) {
+            if (result.equals(course)) {
                 iterator.remove();
                 isRemoved = true;
             }
