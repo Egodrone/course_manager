@@ -4,7 +4,6 @@ package se.lexicon.course_manager_assignment.data.dao;
 
 import se.lexicon.course_manager_assignment.model.Course;
 import se.lexicon.course_manager_assignment.model.Student;
-import se.lexicon.course_manager_assignment.data.dao.StudentCollectionRepository;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -77,6 +76,7 @@ public class CourseCollectionRepository implements CourseDao {
         for (Course c : courses) {
             endDate = c.getStartDate().plusWeeks(c.getWeekDuration());
             System.out.println(endDate);
+
             if (endDate.isEqual(endDate) || end.isBefore(endDate)) {
                 result.add(c);
             }
