@@ -24,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
+
 @SpringBootTest(classes = {ModelToDto.class})
 public class ModelToDtoTest {
 
@@ -47,7 +48,8 @@ public class ModelToDtoTest {
         ModelToDto mtd = new ModelToDto();
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
-        Student s1 = studentRepository.createStudent("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
+        Student s1 = studentRepository.createStudent("Rocky", "rockyBalboa@gmail.com",
+                "Philadelphia");
         String expected = "Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}";
         assertEquals(s1.toString(), expected);
 
@@ -66,19 +68,13 @@ public class ModelToDtoTest {
         Course c1 = courseRepository.createCourse("Java", date, 10);
         Course c2 = courseRepository.createCourse("Python", date2, 19);
 
-        Student s1 = new Student();
-        s1.setName("Stefan");
-        s1.setEmail("Stefan@gmail.com");
-        s1.setAddress("Test street");
-        Student s2 = new Student();
-        s2.setName("Boris");
-        s2.setEmail("boris@gmail.com");
-        s2.setAddress("Boris street");
+        Student s1 = new Student("Stefan", "Stefan@gmail.com", "Park street");
+        Student s2 = new Student("Boris", "boris@gmail.com", "Auerbach Avenue");
 
         boolean actual = c1.enrollStudent(s1);
         boolean actual2 = c2.enrollStudent(s2);
-        assertTrue(actual);
-        assertTrue(actual2);
+
+        assertTrue(actual && actual2);
 
         ModelToDto mtd = new ModelToDto();
         CourseView cov = mtd.courseToCourseView(c1);
@@ -94,14 +90,13 @@ public class ModelToDtoTest {
         Collection<Course> courses = new HashSet<>();
         CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course c1 = courseRepository.createCourse("Java", date, 15);
+        courseRepository.createCourse("Java", date, 15);
         courseRepository.createCourse("Python", date, 10);
         courseRepository.createCourse("BASH", date, 30);
 
         ModelToDto mtd = new ModelToDto();
         List<CourseView> cov = mtd.coursesToCourseViews(courses);
         assertEquals(3, cov.size());
-
     }
 
 
@@ -120,7 +115,6 @@ public class ModelToDtoTest {
 
         List<StudentView> stv = mtd.studentsToStudentViews(actual);
         assertEquals(3, stv.size());
-
     }
 
 
