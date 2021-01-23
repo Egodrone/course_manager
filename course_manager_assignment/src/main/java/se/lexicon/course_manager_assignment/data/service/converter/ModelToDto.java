@@ -20,13 +20,21 @@ public class ModelToDto implements Converters {
     @Override
     public StudentView studentToStudentView(Student student) {
 
-         return new StudentView(student.getId(), student.getName(), student.getEmail(), student.getAddress());
+        if (student == null) {
+            throw new IllegalArgumentException(" student object is null ");
+        }
+
+        return new StudentView(student.getId(), student.getName(), student.getEmail(), student.getAddress());
     }
 
 
 
     @Override
     public CourseView courseToCourseView(Course course) {
+
+        if (course == null) {
+            throw new IllegalArgumentException(" course object is null ");
+        }
 
         return new CourseView(course.getId(),
                 course.getCourseName(),
@@ -39,6 +47,11 @@ public class ModelToDto implements Converters {
 
     @Override
     public List<CourseView> coursesToCourseViews(Collection<Course> courses) {
+
+        if (courses == null) {
+            throw new IllegalArgumentException(" Collection<Course> courses is null ");
+        }
+
         List<CourseView> cvs = new ArrayList<>();
 
         for (Course c : courses) {
@@ -54,7 +67,7 @@ public class ModelToDto implements Converters {
     public List<StudentView> studentsToStudentViews(Collection<Student> students) {
 
         if (students == null) {
-            throw new IllegalArgumentException(" Invalid students Collection value ");
+            throw new IllegalArgumentException(" Collection<Student> students is null ");
         }
 
         List<StudentView> stv = new ArrayList<>();
