@@ -23,6 +23,7 @@ public class StudentCollectionRepository implements StudentDao {
     public Student createStudent(String name, String email, String address) {
         Student s1 = new Student(name, email, address);
         students.add(s1);
+
         return s1;
     }
 
@@ -47,7 +48,7 @@ public class StudentCollectionRepository implements StudentDao {
         Collection<Student> result = new HashSet<>();
 
         for (Student s : students) {
-            if (s.getName().equalsIgnoreCase(name)) {
+            if (s.getName().contains(name)) {
                 result.add(s);
             }
         }
@@ -65,6 +66,7 @@ public class StudentCollectionRepository implements StudentDao {
                 return s;
             }
         }
+
         return null;
     }
 
@@ -72,7 +74,6 @@ public class StudentCollectionRepository implements StudentDao {
 
     @Override
     public Collection<Student> findAll() {
-
         Collection<Student> result = new HashSet<>();
 
         for (Student s : students) {
@@ -87,6 +88,7 @@ public class StudentCollectionRepository implements StudentDao {
     @Override
     public boolean removeStudent(Student student) {
         boolean isDelete = false;
+
         Iterator<Student> iterator = students.iterator();
 
         while (iterator.hasNext()) {
