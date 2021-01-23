@@ -39,9 +39,9 @@ public class StudentCollectionRepositoryTest {
 
 
     @Test
-    @DisplayName("Test context successfully setup")
+    @DisplayName(" Test context successfully setup ")
     void context_loads() {
-        assertFalse(testObject == null);
+        assertNotNull(testObject);
     }
 
 
@@ -50,9 +50,10 @@ public class StudentCollectionRepositoryTest {
     public void test_StudentCollectionRepository() {
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
+
         Student s1 = studentRepository.createStudent("Rocky", "rockyBalboa@gmail.com", "Philadelphia");
-        String expected = "Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}";
-        assertEquals(s1.toString(), expected);
+        String expectedObj = "Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}";
+        assertEquals(expectedObj, s1.toString());
     }
 
 
@@ -63,7 +64,7 @@ public class StudentCollectionRepositoryTest {
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
         Student s1 = studentRepository.createStudent("Test", "test@gmail.com", "Philadelphia");
         String expected = "Student{id=1, name='Test', email='test@gmail.com', address='Philadelphia'}";
-        assertEquals(s1.toString(), expected);
+        assertEquals(expected, s1.toString());
     }
 
 
@@ -72,13 +73,14 @@ public class StudentCollectionRepositoryTest {
     public void test_findByEmailIgnoreCase() {
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
-        Student s1 = studentRepository.createStudent("Test", "test@gmail.com", "Philadelphia");
-        Student expected = studentRepository.findByEmailIgnoreCase("test@gmail.com");
-        assertEquals(s1.toString(), expected.toString());
+        Student s1 = studentRepository.createStudent("Alfredo", "alfredo@gmail.com",
+                "Left turn street");
+        Student actual = studentRepository.findByEmailIgnoreCase("alfredo@gmail.com");
+        assertEquals(s1.toString(), actual.toString());
 
-        //Test wrong email
-        expected = studentRepository.findByEmailIgnoreCase("wrongEmail@gmail.com");
-        assertEquals(null, expected);
+        //Test invalid email
+        actual = studentRepository.findByEmailIgnoreCase("wrongEmail@gmail.com");
+        assertNull(actual);
     }
 
 
@@ -87,16 +89,16 @@ public class StudentCollectionRepositoryTest {
     public void test_findByNameContains() {
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
-        studentRepository.createStudent("Albert", "test@gmail.com", "Philadelphia");
-        studentRepository.createStudent("Albert", "another@gmail.com", "New street");
+        studentRepository.createStudent("Albert", "albert@gmail.com", "Philadelphia");
+        studentRepository.createStudent("Albert", "albert_staffan@gmail.com", "New street");
         studentRepository.createStudent("Robert", "robert@gmail.com", "Robert street");
-        Collection expected = studentRepository.findByNameContains("Albert");
+        Collection<Student> actual = studentRepository.findByNameContains("Albert");
         //Expected 2 students
-        assertEquals(expected.size(), 2);
+        assertEquals(2, actual.size());
 
         // Test with name that does not exist
-        expected = studentRepository.findByNameContains("NotExistingName");
-        assertEquals(expected.size(), 0);
+        actual = studentRepository.findByNameContains("NotExistingName");
+        assertEquals(0, actual.size());
     }
 
 
@@ -105,8 +107,8 @@ public class StudentCollectionRepositoryTest {
     public void test_findById() {
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
-        studentRepository.createStudent("Albert", "test@gmail.com", "Philadelphia");
-        studentRepository.createStudent("Sven", "another@gmail.com", "New street");
+        studentRepository.createStudent("Albert", "albert@gmail.com", "Philadelphia");
+        studentRepository.createStudent("Sven", "sven@gmail.com", "New street");
         studentRepository.createStudent("Robert", "robert@gmail.com", "Robert street");
         Student actual = studentRepository.findById(3);
         String expected  = "Student{id=3, name='Robert', email='robert@gmail.com', address='Robert street'}";
@@ -122,7 +124,7 @@ public class StudentCollectionRepositoryTest {
         studentRepository.createStudent("Albert", "test@gmail.com", "Philadelphia");
         studentRepository.createStudent("Sven", "another@gmail.com", "New street");
         studentRepository.createStudent("Lena", "lena@gmail.com", "Robert street");
-        Collection actual = studentRepository.findAll();
+        Collection<Student> actual = studentRepository.findAll();
         assertEquals(3, actual.size());
     }
 
@@ -137,9 +139,11 @@ public class StudentCollectionRepositoryTest {
         studentRepository.createStudent("Lena", "lena@gmail.com", "Robert street");
         boolean actual = studentRepository.removeStudent(s2);
         assertTrue(actual);
+
         actual = studentRepository.removeStudent(s1);
         assertTrue(actual);
-        Collection actualSize = studentRepository.findAll();
+
+        Collection<Student> actualSize = studentRepository.findAll();
         assertEquals(1, actualSize.size());
     }
 
@@ -153,8 +157,8 @@ public class StudentCollectionRepositoryTest {
         studentRepository.createStudent("Sven", "another@gmail.com", "New street");
         studentRepository.createStudent("Lena", "lena@gmail.com", "Robert street");
         studentRepository.clear();
-        Collection actualSize = studentRepository.findAll();
-        assertEquals(0, actualSize.size());
+        Collection<Student> actual = studentRepository.findAll();
+        assertEquals(0, actual.size());
     }
 
 
