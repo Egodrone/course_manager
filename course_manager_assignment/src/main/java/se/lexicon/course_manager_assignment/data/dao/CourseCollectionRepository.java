@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 
+
 public class CourseCollectionRepository implements CourseDao {
 
     private Collection<Course> courses;
@@ -42,6 +43,8 @@ public class CourseCollectionRepository implements CourseDao {
                     result = c;
                 }
             }
+        } else {
+            throw new IllegalArgumentException(" invalid id number ");
         }
 
         return result;
@@ -51,6 +54,14 @@ public class CourseCollectionRepository implements CourseDao {
 
     @Override
     public Collection<Course> findByNameContains(String name) {
+
+        if (name == null) {
+            throw new IllegalArgumentException(" String name is null ");
+        }
+        if (name.equals("")) {
+            throw new IllegalArgumentException(" String name is empty ");
+        }
+
         Collection<Course> result = new HashSet<>();
 
         for (Course c : courses) {
@@ -70,7 +81,7 @@ public class CourseCollectionRepository implements CourseDao {
         LocalDate endDate;
 
         if (end == null) {
-            throw new IllegalArgumentException(" Invalid date ");
+            throw new IllegalArgumentException(" LocalDate date is null ");
         }
 
         for (Course c : courses) {
@@ -92,7 +103,7 @@ public class CourseCollectionRepository implements CourseDao {
         Collection<Course> result = new HashSet<>();
 
         if (start == null) {
-            throw new IllegalArgumentException(" Invalid date ");
+            throw new IllegalArgumentException(" LocalDate start is null ");
         }
 
         for (Course c : courses) {
@@ -145,7 +156,7 @@ public class CourseCollectionRepository implements CourseDao {
         boolean isRemoved = false;
 
         if (course == null) {
-            throw new IllegalArgumentException(" Invalid course ");
+            throw new IllegalArgumentException(" Course course object is null ");
         }
 
         Iterator<Course> iterator = courses.iterator();
