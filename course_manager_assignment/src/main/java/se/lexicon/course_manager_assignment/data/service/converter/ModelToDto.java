@@ -19,19 +19,20 @@ public class ModelToDto implements Converters {
 
     @Override
     public StudentView studentToStudentView(Student student) {
-        StudentView s = new StudentView(student.getId(), student.getName(), student.getEmail(), student.getAddress());
 
-        return s;
+         return new StudentView(student.getId(), student.getName(), student.getEmail(), student.getAddress());
     }
 
 
 
     @Override
     public CourseView courseToCourseView(Course course) {
-        CourseView c = new CourseView(course.getId(), course.getCourseName(), course.getStartDate(),
-                course.getWeekDuration(), studentsToStudentViews(course.getStudents()));
 
-        return c;
+        return new CourseView(course.getId(),
+                course.getCourseName(),
+                course.getStartDate(),
+                course.getWeekDuration(),
+                studentsToStudentViews(course.getStudents()));
     }
 
 
@@ -51,6 +52,11 @@ public class ModelToDto implements Converters {
 
     @Override
     public List<StudentView> studentsToStudentViews(Collection<Student> students) {
+
+        if (students == null) {
+            throw new IllegalArgumentException(" Invalid students Collection value ");
+        }
+
         List<StudentView> stv = new ArrayList<>();
 
         for (Student s : students) {
