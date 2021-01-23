@@ -1,5 +1,7 @@
 package se.lexicon.course_manager_assignment.data.service.student;
 
+
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +16,19 @@ import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+
+
 @SpringBootTest(classes = {StudentManager.class, CourseCollectionRepository.class, StudentCollectionRepository.class, ModelToDto.class})
 public class StudentManagerTest {
+
+
 
     @Autowired
     private StudentService testObject;
     @Autowired
     private StudentDao studentDao;
+
+
 
     @Test
     @DisplayName("Test context successfully setup")
@@ -29,6 +37,7 @@ public class StudentManagerTest {
         assertNotNull(studentDao);
     }
 
+
     //Write your tests here
 
     @AfterEach
@@ -36,4 +45,7 @@ public class StudentManagerTest {
         StudentSequencer.setStudentSequencer(0);
         studentDao.clear();
     }
+
+
+
 }
