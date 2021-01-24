@@ -21,7 +21,7 @@ public class ModelToDto implements Converters {
     public StudentView studentToStudentView(Student student) {
 
         if (student == null) {
-            throw new IllegalArgumentException(" student object is null ");
+            throw new IllegalArgumentException(" Student student object is null ");
         }
 
         return new StudentView(student.getId(), student.getName(), student.getEmail(), student.getAddress());
@@ -33,7 +33,7 @@ public class ModelToDto implements Converters {
     public CourseView courseToCourseView(Course course) {
 
         if (course == null) {
-            throw new IllegalArgumentException(" course object is null ");
+            throw new IllegalArgumentException(" Course course object is null ");
         }
 
         return new CourseView(course.getId(),
