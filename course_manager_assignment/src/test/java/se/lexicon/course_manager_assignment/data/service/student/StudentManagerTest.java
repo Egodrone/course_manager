@@ -13,7 +13,6 @@ import se.lexicon.course_manager_assignment.data.dao.StudentDao;
 import se.lexicon.course_manager_assignment.data.sequencers.StudentSequencer;
 import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
@@ -38,12 +37,60 @@ public class StudentManagerTest {
     }
 
 
-    //Write your tests here
 
     @AfterEach
     void tearDown() {
         StudentSequencer.setStudentSequencer(0);
         studentDao.clear();
+    }
+
+
+
+    @Test
+    public void test_create() {
+
+    }
+
+
+
+    @Test
+    public void test_update() {
+
+    }
+
+
+
+    @Test
+    public void test_findById() {
+
+    }
+
+
+
+    @Test
+    public void test_searchByEmail() {
+
+    }
+
+
+
+    @Test
+    public void test_searchByName() {
+
+    }
+
+
+
+    @Test
+    public void test_findAll() {
+
+    }
+
+
+
+    @Test
+    public void test_deleteStudent() {
+
     }
 
 
