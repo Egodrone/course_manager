@@ -107,4 +107,53 @@ public class CourseManagerTest {
 
 
 
+    @Test
+    public void test_searchByCourseName() {
+
+    }
+
+
+
+    @Test
+    public void test_searchByDateBefore() {
+
+    }
+
+
+
+    @Test
+    public void test_searchByDateAfter() {
+
+    }
+
+
+
+    @Test
+    public void test_addStudentToCourse() {
+
+    }
+
+
+
+    @Test
+    public void test_removeStudentFromCourse() {
+
+    }
+
+
+
+    @Test
+    public void test_findById() {
+
+    }
+
+
+
+    @Test
+    public void test_findAll() {
+
+    }
+
+
+
 }
