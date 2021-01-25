@@ -53,7 +53,7 @@ public class ModelToDtoTest {
         String expected = "Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}";
         assertEquals(s1.toString(), expected);
 
-        StudentView stv = mtd.studentToStudentView(s1);
+        StudentView stv = testObject.studentToStudentView(s1);
         assertEquals("Rocky", stv.getName());
     }
 
@@ -62,14 +62,16 @@ public class ModelToDtoTest {
     @Test
     public void test_courseToCourseView() {
         Collection<Course> courses = new HashSet<>();
+        Collection<Student> students = new HashSet<>();
         CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         LocalDate date2 = LocalDate.parse("2021-01-13", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         Course c1 = courseRepository.createCourse("Java", date, 10);
         Course c2 = courseRepository.createCourse("Python", date2, 19);
 
-        Student s1 = new Student("Stefan", "Stefan@gmail.com", "Park street");
-        Student s2 = new Student("Boris", "boris@gmail.com", "Auerbach Avenue");
+        StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
+        Student s1 = studentRepository.createStudent("Stefan", "Stefan@gmail.com", "Park street");
+        Student s2 = studentRepository.createStudent("Boris", "boris@gmail.com", "Auerbach Avenue");
 
         boolean actual = c1.enrollStudent(s1);
         boolean actual2 = c2.enrollStudent(s2);
@@ -77,7 +79,7 @@ public class ModelToDtoTest {
         assertTrue(actual && actual2);
 
         ModelToDto mtd = new ModelToDto();
-        CourseView cov = mtd.courseToCourseView(c1);
+        CourseView cov = testObject.courseToCourseView(c1);
 
         assertEquals("Java", cov.getCourseName());
         assertEquals(10, cov.getWeekDuration());
@@ -95,7 +97,7 @@ public class ModelToDtoTest {
         courseRepository.createCourse("BASH", date, 30);
 
         ModelToDto mtd = new ModelToDto();
-        List<CourseView> cov = mtd.coursesToCourseViews(courses);
+        List<CourseView> cov = testObject.coursesToCourseViews(courses);
         assertEquals(3, cov.size());
     }
 
@@ -113,7 +115,7 @@ public class ModelToDtoTest {
 
         ModelToDto mtd = new ModelToDto();
 
-        List<StudentView> stv = mtd.studentsToStudentViews(actual);
+        List<StudentView> stv = testObject.studentsToStudentViews(actual);
         assertEquals(3, stv.size());
     }
 
