@@ -201,14 +201,9 @@ public class CourseManager implements CourseService {
 
     @Override
     public List<CourseView> findAll() {
-        List<CourseView> result = new ArrayList<>();
+        Collection<Course> allCourses = courseDao.findAll();
 
-        /*
-        for (CourseView cv : courseNames) {
-
-        }*/
-
-        return result;
+        return converters.coursesToCourseViews(allCourses);
     }
 
 
