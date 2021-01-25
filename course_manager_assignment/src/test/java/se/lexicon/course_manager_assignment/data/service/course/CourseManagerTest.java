@@ -205,11 +205,4 @@ public class CourseManagerTest {
 
 
 
-
-    @Test
-    public void test_clear() {
-
-    }
-
-
 }
