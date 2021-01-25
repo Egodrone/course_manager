@@ -14,6 +14,7 @@ import se.lexicon.course_manager_assignment.model.Course;
 import se.lexicon.course_manager_assignment.model.Student;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -57,15 +58,12 @@ public class StudentManager implements StudentService {
         }
 
         if (form.getId() > 0) {
-                Student tmpStudent = studentDao.findById(form.getId());
-                boolean checkBoolean = studentDao.removeStudent(tmpStudent);
+            Student updateStudent = studentDao.findById(form.getId());
+            updateStudent.setName(form.getName());
+            updateStudent.setEmail(form.getEmail());
+            updateStudent.setAddress(form.getAddress());
 
-            if (checkBoolean == true) {
-                Student updateStudent = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
-
-                return converters.studentToStudentView(updateStudent);
-            }
-
+            return converters.studentToStudentView(updateStudent);
         }
 
         return null;
@@ -76,13 +74,13 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView findById(int id) {
 
-        if (id <= 0) {
+        if (id < 1) {
             throw new IllegalArgumentException(" Invalid id value ");
         }
 
-        StudentView sv = null;
+        Student findStudentById = studentDao.findById(id);
 
-        return null;
+        return converters.studentToStudentView(findStudentById);
     }
 
 
@@ -97,7 +95,9 @@ public class StudentManager implements StudentService {
             throw new IllegalArgumentException(" Email value is empty ");
         }
 
-        return null;
+        Student findStudentByEmail = studentDao.findByEmailIgnoreCase(email);
+
+        return converters.studentToStudentView(findStudentByEmail);
     }
 
 
@@ -112,16 +112,9 @@ public class StudentManager implements StudentService {
             throw new IllegalArgumentException(" name value is empty ");
         }
 
-        List<StudentView> stv = new ArrayList<>();
+        Collection<Student> findStudentByName = studentDao.findByNameContains(name);
 
-        /*
-        for (Student s : studentDao.findAll()) {
-            if (s.getName().equalsIgnoreCase(name)) {
-                stv.add(s);
-            }
-        }
-        */
-        return null;
+        return converters.studentsToStudentViews(findStudentByName);
     }
 
 
