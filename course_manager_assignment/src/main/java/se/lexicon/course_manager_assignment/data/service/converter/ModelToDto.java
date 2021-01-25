@@ -35,12 +35,19 @@ public class ModelToDto implements Converters {
         if (course == null) {
             throw new IllegalArgumentException(" Course course object is null ");
         }
+        if (course.getStudents().size() == 0) {
+            return new CourseView(course.getId(),
+                    course.getCourseName(),
+                    course.getStartDate(),
+                    course.getWeekDuration(),null);
+        }else {
+            return new CourseView(course.getId(),
+                    course.getCourseName(),
+                    course.getStartDate(),
+                    course.getWeekDuration(),
+                    studentsToStudentViews(course.getStudents()));
+        }
 
-        return new CourseView(course.getId(),
-                course.getCourseName(),
-                course.getStartDate(),
-                course.getWeekDuration(),
-                studentsToStudentViews(course.getStudents()));
     }
 
 
