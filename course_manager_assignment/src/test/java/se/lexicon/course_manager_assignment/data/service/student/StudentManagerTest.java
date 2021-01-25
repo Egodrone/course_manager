@@ -15,15 +15,9 @@ import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 import se.lexicon.course_manager_assignment.dto.forms.CreateStudentForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateStudentForm;
 import se.lexicon.course_manager_assignment.dto.views.StudentView;
-import se.lexicon.course_manager_assignment.model.Student;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(classes = {StudentManager.class, CourseCollectionRepository.class, StudentCollectionRepository.class, ModelToDto.class})
@@ -120,14 +114,29 @@ public class StudentManagerTest {
 
     @Test
     public void test_findAll() {
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        CreateStudentForm studentForm2 = new CreateStudentForm(0, "Annie", "annie@gmail.com", "Annie Street");
+        CreateStudentForm studentForm3 = new CreateStudentForm(0, "Felicia", "felicia@gmail.com", "North Street");
+        testObject.create(studentForm);
+        testObject.create(studentForm2);
+        testObject.create(studentForm3);
 
+        List<StudentView> testStudent = testObject.findAll();
+        assertEquals(3, testStudent.size());
     }
 
 
 
     @Test
     public void test_deleteStudent() {
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        CreateStudentForm studentForm2 = new CreateStudentForm(0, "Annie", "annie@gmail.com", "Annie Street");
+        CreateStudentForm studentForm3 = new CreateStudentForm(0, "Felicia", "felicia@gmail.com", "North Street");
+        testObject.create(studentForm);
+        testObject.create(studentForm2);
+        testObject.create(studentForm3);
 
+        assertTrue(testObject.deleteStudent(1));
     }
 
 
