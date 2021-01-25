@@ -10,6 +10,8 @@ import se.lexicon.course_manager_assignment.data.service.converter.Converters;
 import se.lexicon.course_manager_assignment.dto.forms.CreateStudentForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateStudentForm;
 import se.lexicon.course_manager_assignment.dto.views.StudentView;
+import se.lexicon.course_manager_assignment.model.Course;
+import se.lexicon.course_manager_assignment.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +43,8 @@ public class StudentManager implements StudentService {
             throw new IllegalArgumentException(" CreateStudentForm form is null ");
         }
 
-        //studentDao.createStudent(form.getName(), form.getEmail(), );
-        //studentDao.createStudent();
-        studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
-        return new StudentView(form.getId(), form.getName(), form.getEmail(), form.getAddress());
+        Student student = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
+        return converters.studentToStudentView(student);
     }
 
 
@@ -56,7 +56,18 @@ public class StudentManager implements StudentService {
             throw new IllegalArgumentException(" UpdateStudentForm form is null ");
         }
 
-        //StudentView sv = new StudentView(form.setId(), form.setName(), form.setEmail(), form.setAddress());
+        if (form.getId() > 0) {
+                Student tmpStudent = studentDao.findById(form.getId());
+                boolean checkBoolean = studentDao.removeStudent(tmpStudent);
+
+            if (checkBoolean == true) {
+                Student updateStudent = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
+
+                return converters.studentToStudentView(updateStudent);
+            }
+
+        }
+
         return null;
     }
 
@@ -103,6 +114,13 @@ public class StudentManager implements StudentService {
 
         List<StudentView> stv = new ArrayList<>();
 
+        /*
+        for (Student s : studentDao.findAll()) {
+            if (s.getName().equalsIgnoreCase(name)) {
+                stv.add(s);
+            }
+        }
+        */
         return null;
     }
 
@@ -112,7 +130,6 @@ public class StudentManager implements StudentService {
     public List<StudentView> findAll() {
         List<StudentView> result = new ArrayList<>();
 
-        //return result;
         return null;
     }
 
