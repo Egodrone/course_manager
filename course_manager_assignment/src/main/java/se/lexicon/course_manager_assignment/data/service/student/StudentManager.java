@@ -37,12 +37,13 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView create(CreateStudentForm form) {
 
-        if (form == null) {
-            throw new IllegalArgumentException(" CreateStudentForm form is null ");
+        if (form != null) {
+            Student student = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
+
+            return converters.studentToStudentView(student);
         }
 
-        Student student = studentDao.createStudent(form.getName(), form.getEmail(), form.getAddress());
-        return converters.studentToStudentView(student);
+        return null;
     }
 
 
@@ -50,17 +51,15 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView update(UpdateStudentForm form) {
 
-        if (form == null) {
-            throw new IllegalArgumentException(" UpdateStudentForm form is null ");
-        }
+        if (form != null) {
+            if (form.getId() > 0) {
+                Student updateStudent = studentDao.findById(form.getId());
+                updateStudent.setName(form.getName());
+                updateStudent.setEmail(form.getEmail());
+                updateStudent.setAddress(form.getAddress());
 
-        if (form.getId() > 0) {
-            Student updateStudent = studentDao.findById(form.getId());
-            updateStudent.setName(form.getName());
-            updateStudent.setEmail(form.getEmail());
-            updateStudent.setAddress(form.getAddress());
-
-            return converters.studentToStudentView(updateStudent);
+                return converters.studentToStudentView(updateStudent);
+            }
         }
 
         return null;
@@ -71,13 +70,13 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView findById(int id) {
 
-        if (id < 1) {
-            throw new IllegalArgumentException(" Invalid id value ");
+        if (id > 0) {
+            Student findStudentById = studentDao.findById(id);
+
+            return converters.studentToStudentView(findStudentById);
         }
 
-        Student findStudentById = studentDao.findById(id);
-
-        return converters.studentToStudentView(findStudentById);
+        return null;
     }
 
 
@@ -85,16 +84,13 @@ public class StudentManager implements StudentService {
     @Override
     public StudentView searchByEmail(String email) {
 
-        if (email == null) {
-            throw new IllegalArgumentException(" Email value is null ");
-        }
-        if (email.equals("")) {
-            throw new IllegalArgumentException(" Email value is empty ");
+        if (email != null && !email.equals("")) {
+            Student findStudentByEmail = studentDao.findByEmailIgnoreCase(email);
+
+            return converters.studentToStudentView(findStudentByEmail);
         }
 
-        Student findStudentByEmail = studentDao.findByEmailIgnoreCase(email);
-
-        return converters.studentToStudentView(findStudentByEmail);
+        return null;
     }
 
 
@@ -102,16 +98,13 @@ public class StudentManager implements StudentService {
     @Override
     public List<StudentView> searchByName(String name) {
 
-        if (name == null) {
-            throw new IllegalArgumentException(" name value is null ");
-        }
-        if (name.equals("")) {
-            throw new IllegalArgumentException(" name value is empty ");
+        if (name != null && !name.equals("")) {
+            Collection<Student> findStudentByName = studentDao.findByNameContains(name);
+
+            return converters.studentsToStudentViews(findStudentByName);
         }
 
-        Collection<Student> findStudentByName = studentDao.findByNameContains(name);
-
-        return converters.studentsToStudentViews(findStudentByName);
+        return null;
     }
 
 
@@ -128,12 +121,12 @@ public class StudentManager implements StudentService {
     @Override
     public boolean deleteStudent(int id) {
 
-        if (id < 1) {
-            throw new IllegalArgumentException(" Invalid id value ");
+        if (id > 0) {
+            Student removeStudent = studentDao.findById(id);
+            return studentDao.removeStudent(removeStudent);
         }
 
-        Student removeStudent = studentDao.findById(id);
-        return studentDao.removeStudent(removeStudent);
+        return false;
     }
 
 
