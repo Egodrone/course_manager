@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
+
 @SpringBootTest(classes = {CourseManager.class, CourseCollectionRepository.class, ModelToDto.class, StudentCollectionRepository.class})
 public class CourseManagerTest {
 
@@ -110,14 +111,32 @@ public class CourseManagerTest {
 
     @Test
     public void test_searchByDateBefore() {
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate date2 = LocalDate.parse("2025-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate testDate = LocalDate.parse("2023-03-11", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date2, 20);
+        testObject.create(form1);
+        testObject.create(form2);
+        List<CourseView> courseViewList = testObject.searchByDateBefore(testDate);
 
+        assertEquals(1, courseViewList.size());
     }
 
 
 
     @Test
     public void test_searchByDateAfter() {
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate date2 = LocalDate.parse("2025-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate testDate = LocalDate.parse("2023-03-11", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date2, 20);
+        testObject.create(form1);
+        testObject.create(form2);
+        List<CourseView> courseViewList = testObject.searchByDateAfter(testDate);
 
+        assertEquals(1, courseViewList.size());
     }
 
 
@@ -182,6 +201,14 @@ public class CourseManagerTest {
 
         // test delete Cpp course
         assertTrue(testObject.deleteCourse(3));
+    }
+
+
+
+
+    @Test
+    public void test_clear() {
+
     }
 
 
