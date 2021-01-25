@@ -47,18 +47,11 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" Form object is null ");
         }
 
-        courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
-        List<StudentView> sv = new ArrayList<>();
-        //sv = converters.studentsToStudentViews(studentDao.findAll());
-        System.out.println("Length: " + sv.size());
+        Course createdCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
+        System.out.println("createdCourse.getId() = " + createdCourse.getId());
+        CourseView convertedCourse = converters.courseToCourseView(createdCourse);
 
-        CourseView cov = new CourseView(form.getId(),
-                form.getCourseName(),
-                form.getStartDate(),
-                form.getWeekDuration(),
-                sv);
-
-        return cov;
+        return convertedCourse;
     }
 
 
@@ -70,8 +63,17 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" Form object is null ");
         }
 
-        //CourseView cov = new CourseView(form.getId(), form.getCourseName(), form.getWeekDuration());
-        //return cov;
+        Course tmpCourse = courseDao.findById(form.getId());
+        boolean checkBoolean = courseDao.removeCourse(tmpCourse);
+
+        // If course exist, update it by id (removing older one and replacing)
+        if (checkBoolean == true) {
+            courseDao.removeCourse(tmpCourse);
+            Course updatedCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
+            System.out.println("createdCourse.getId() = " + updatedCourse.getId());
+            CourseView convertedCourse = converters.courseToCourseView(updatedCourse);
+            return convertedCourse;
+        }
 
         return null;
     }
@@ -85,9 +87,17 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" String courseName is null ");
         }
 
-        List<CourseView> covList = new ArrayList<>();
+        Collection<Course> allCourses = courseDao.findAll();
+        List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
+        List<CourseView> result = new ArrayList<>();
 
-        return covList;
+        for (CourseView c: covList) {
+            if (c.getCourseName().equalsIgnoreCase(courseName)) {
+                result.add(c);
+            }
+        }
+
+        return result;
     }
 
 
