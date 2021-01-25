@@ -64,16 +64,13 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" Form object is null ");
         }
 
-        Course tmpCourse = courseDao.findById(form.getId());
-        boolean checkBoolean = courseDao.removeCourse(tmpCourse);
+        if (form.getId() > 0) {
+            Course updateCourse = courseDao.findById(form.getId());
+            updateCourse.setCourseName(form.getCourseName());
+            updateCourse.setStartDate(form.getStartDate());
+            updateCourse.setWeekDuration(form.getWeekDuration());
 
-        // If course exist, update it by id (removing older one and replacing)
-        if (checkBoolean == true) {
-            courseDao.removeCourse(tmpCourse);
-            Course updatedCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
-            System.out.println("createdCourse.getId() = " + updatedCourse.getId());
-            //CourseView convertedCourse = converters.courseToCourseView(updatedCourse);
-            return converters.courseToCourseView(updatedCourse);
+            return converters.courseToCourseView(updateCourse);
         }
 
         return null;
