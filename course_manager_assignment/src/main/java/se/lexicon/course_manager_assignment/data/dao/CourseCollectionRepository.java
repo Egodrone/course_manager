@@ -80,18 +80,24 @@ public class CourseCollectionRepository implements CourseDao {
     @Override
     public Collection<Course> findByDateBefore(LocalDate end) {
         Collection<Course> result = new HashSet<>();
-        LocalDate endDate;
+        LocalDate setDate;
 
         if (end == null) {
             throw new IllegalArgumentException(" LocalDate date is null ");
         }
 
         for (Course c : courses) {
-            endDate = c.getStartDate().plusWeeks(c.getWeekDuration());
-            System.out.println(endDate);
-
-            if (endDate.isEqual(endDate) || end.isBefore(endDate)) {
+            setDate = c.getStartDate().plusWeeks(c.getWeekDuration());
+            System.out.println(" End date: " + setDate);
+            
+            int diff = setDate.compareTo(end);
+            if(diff > 0) {
+                System.out.println(setDate + " is after than " + end);
+            } else if (diff < 0) {
+                System.out.println(setDate + " is before than " + end);
                 result.add(c);
+            } else {
+                System.out.println(setDate + " is equal to " + end);
             }
         }
 
@@ -103,14 +109,24 @@ public class CourseCollectionRepository implements CourseDao {
     @Override
     public Collection<Course> findByDateAfter(LocalDate start) {
         Collection<Course> result = new HashSet<>();
+        LocalDate setDate;
 
         if (start == null) {
             throw new IllegalArgumentException(" LocalDate start is null ");
         }
 
         for (Course c : courses) {
-            if (c.getStartDate().isEqual(start)) {
+            setDate = c.getStartDate().plusWeeks(c.getWeekDuration());
+            System.out.println(" End date: " + setDate);
+
+            int diff = setDate.compareTo(start);
+            if(diff > 0) {
+                System.out.println(setDate + " is after than " + start);
                 result.add(c);
+            } else if (diff < 0) {
+                System.out.println(setDate + " is before than " + start);
+            } else {
+                System.out.println(setDate + " is equal to " + start);
             }
         }
 
