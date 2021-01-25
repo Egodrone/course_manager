@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @SpringBootTest(classes = {CourseManager.class, CourseCollectionRepository.class, ModelToDto.class, StudentCollectionRepository.class})
@@ -168,6 +168,21 @@ public class CourseManagerTest {
         assertEquals(2, courseViewList.size());
     }
 
+
+
+    @Test
+    public void test_deleteCourse() {
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date, 20);
+        CreateCourseForm form3 = new CreateCourseForm(0, "Cpp", date, 23);
+        testObject.create(form1);
+        testObject.create(form2);
+        testObject.create(form3);
+
+        // test delete Cpp course
+        assertTrue(testObject.deleteCourse(3));
+    }
 
 
 }
