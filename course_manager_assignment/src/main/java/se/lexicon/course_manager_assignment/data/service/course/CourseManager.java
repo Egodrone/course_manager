@@ -7,18 +7,13 @@ import org.springframework.stereotype.Service;
 import se.lexicon.course_manager_assignment.data.dao.CourseDao;
 import se.lexicon.course_manager_assignment.data.dao.StudentDao;
 import se.lexicon.course_manager_assignment.data.service.converter.Converters;
-import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 import se.lexicon.course_manager_assignment.dto.forms.CreateCourseForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateCourseForm;
 import se.lexicon.course_manager_assignment.dto.views.CourseView;
-import se.lexicon.course_manager_assignment.dto.views.StudentView;
 import se.lexicon.course_manager_assignment.model.Course;
-import se.lexicon.course_manager_assignment.model.Student;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 
