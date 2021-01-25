@@ -85,9 +85,11 @@ public class CourseManager implements CourseService {
             List<CourseView> result = new ArrayList<>();
 
             for (CourseView c : covList) {
+
                 if (c.getCourseName().equalsIgnoreCase(courseName)) {
                     result.add(c);
                 }
+
             }
 
             return result;
