@@ -15,14 +15,17 @@ import se.lexicon.course_manager_assignment.data.sequencers.CourseSequencer;
 import se.lexicon.course_manager_assignment.data.service.converter.Converters;
 import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 import se.lexicon.course_manager_assignment.dto.forms.CreateCourseForm;
+import se.lexicon.course_manager_assignment.dto.forms.UpdateCourseForm;
 import se.lexicon.course_manager_assignment.dto.views.CourseView;
 import se.lexicon.course_manager_assignment.model.Course;
 import se.lexicon.course_manager_assignment.model.Student;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,11 +43,7 @@ public class CourseManagerTest {
 
     @Autowired
     private CourseDao courseDao;
-    private StudentDao studentDao;
-    private Converters converters;
-    private Object CourseDao;
-    private Object StudentDao;
-    private Object Converters;
+
 
 
 
@@ -67,49 +66,44 @@ public class CourseManagerTest {
 
     @Test
     public void test_create() {
-        CourseManager cm = new CourseManager(courseDao, studentDao, converters);
+        // Create Course Form Object
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        //LocalDate date2 = LocalDate.parse("2021-01-13", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form = new CreateCourseForm(0, "Java", date, 10);
+        CourseView cv = testObject.create(form);
+        assertEquals(form.getCourseName(), cv.getCourseName());
 
-        Collection<Course> courses = new HashSet<>();
-        CourseCollectionRepository courseRepository = new CourseCollectionRepository(courses);
-
-        Course c1 = courseRepository.createCourse("Java", date, 10);
-        //Course c2 = courseRepository.createCourse("Python", date2, 19);
-
-        Student s1 = new Student("Eddie", "ed@gmail.com", "Java street");
-        Student s2 = new Student("Tanja", "tanja@mail.com", "Python street");
-
-        System.out.println(s1.getName());
-
-        boolean actual = c1.enrollStudent(s1);
-        boolean actual2 = c1.enrollStudent(s2);
-
-        assertTrue(actual && actual2);
-
-        CreateCourseForm form = new CreateCourseForm(1, "Java", date, 10);
-        CourseView testCreatedCourseForm = cm.create(form);
-
-        //System.out.println(testCreatedCourseForm.toString());
-        //System.out.println(testCreatedCourseForm.getCourseName());
-        //todo: student list should be added, right now it is empty
-        System.out.println(testCreatedCourseForm.getStudents().toString());
-
-        assertEquals("Java", testCreatedCourseForm.getCourseName());
     }
 
 
 
     @Test
     public void test_update() {
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        // First creating a new course
+        CreateCourseForm form1 = new CreateCourseForm(1, "Java", date, 10);
+        CourseView cv = testObject.create(form1);
+        assertEquals(form1.getCourseName(), cv.getCourseName());
 
+        // Updating
+        UpdateCourseForm form = new UpdateCourseForm(1, "Java Advanced", date, 12);
+        CourseView cv2 = testObject.update(form);
+        assertEquals(form.getCourseName(), cv2.getCourseName());
     }
 
 
 
     @Test
     public void test_searchByCourseName() {
-
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date, 20);
+        CourseView cv = testObject.create(form1);
+        CourseView cv2 = testObject.create(form2);
+        List<CourseView> courseViewList = testObject.searchByCourseName("Python");
+        List<CourseView> expected = new ArrayList<>();
+        expected.add(cv2);
+        System.out.println(courseViewList.toString());
+        assertTrue(courseViewList.equals(expected) && expected.equals(courseViewList));
     }
 
 
