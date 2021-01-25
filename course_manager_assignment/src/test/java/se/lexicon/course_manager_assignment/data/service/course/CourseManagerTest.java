@@ -158,7 +158,14 @@ public class CourseManagerTest {
 
     @Test
     public void test_findAll() {
-
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date, 20);
+        testObject.create(form1);
+        testObject.create(form2);
+        List<CourseView> courseViewList = testObject.findAll();
+        System.out.println(courseViewList);
+        assertEquals(2, courseViewList.size());
     }
 
 
