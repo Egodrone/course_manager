@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Course {
 
-    private final int id;
+    private int id;
     private String courseName;
     private LocalDate startDate;
     private int weekDuration;
@@ -19,13 +19,13 @@ public class Course {
 
 
     public Course() {
-        this.id = CourseSequencer.nextCourseId();
+       //this.id = CourseSequencer.nextCourseId();
     }
 
 
 
     public Course(String courseName, LocalDate startDate, int weekDuration, Collection<Student> students) {
-        this.id = CourseSequencer.nextCourseId();
+        //this.id = CourseSequencer.nextCourseId();
         this.courseName = courseName;
         this.startDate = startDate;
         this.weekDuration = weekDuration;
@@ -35,7 +35,7 @@ public class Course {
 
 
     public Course(String courseName, LocalDate startDate, int weekDuration) {
-        this.id = CourseSequencer.nextCourseId();
+        //this.id = CourseSequencer.nextCourseId();
         this.courseName = courseName;
         this.startDate = startDate;
         this.weekDuration = weekDuration;
@@ -50,6 +50,14 @@ public class Course {
         this.startDate = startDate;
         this.weekDuration = weekDuration;
         this.students = students;
+    }
+
+
+    public Course(int id, String courseName, LocalDate startDate, int weekDuration) {
+        this.id = id;
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.weekDuration = weekDuration;
     }
 
 
