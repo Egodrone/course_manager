@@ -19,6 +19,7 @@ import se.lexicon.course_manager_assignment.model.Student;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -74,21 +75,45 @@ public class StudentManagerTest {
 
     @Test
     public void test_findById() {
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        CreateStudentForm studentForm2 = new CreateStudentForm(0, "Annie", "annie@gmail.com", "Annie Street");
+        CreateStudentForm studentForm3 = new CreateStudentForm(0, "Felicia", "felicia@gmail.com", "North Street");
+        testObject.create(studentForm);
+        testObject.create(studentForm2);
+        testObject.create(studentForm3);
 
+        StudentView testStudent = testObject.findById(2);
+        assertEquals("Annie", testStudent.getName());
     }
 
 
 
     @Test
     public void test_searchByEmail() {
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        CreateStudentForm studentForm2 = new CreateStudentForm(0, "Annie", "annie@gmail.com", "Annie Street");
+        CreateStudentForm studentForm3 = new CreateStudentForm(0, "Felicia", "felicia@gmail.com", "North Street");
+        testObject.create(studentForm);
+        testObject.create(studentForm2);
+        testObject.create(studentForm3);
 
+        StudentView testStudent = testObject.searchByEmail("felicia@gmail.com");
+        assertEquals("felicia@gmail.com", testStudent.getEmail());
     }
 
 
 
     @Test
     public void test_searchByName() {
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        CreateStudentForm studentForm2 = new CreateStudentForm(0, "Annie", "annie@gmail.com", "Annie Street");
+        CreateStudentForm studentForm3 = new CreateStudentForm(0, "Felicia", "felicia@gmail.com", "North Street");
+        testObject.create(studentForm);
+        testObject.create(studentForm2);
+        testObject.create(studentForm3);
 
+        List<StudentView> testStudent = testObject.searchByName("Annie");
+        assertEquals(1, testStudent.size());
     }
 
 
