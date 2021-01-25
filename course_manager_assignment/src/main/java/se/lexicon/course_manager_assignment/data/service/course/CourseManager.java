@@ -109,6 +109,8 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" LocalDate end is null ");
         }
 
+
+
         List<CourseView> covList = new ArrayList<>();
 
         return covList;
@@ -142,6 +144,16 @@ public class CourseManager implements CourseService {
 
         boolean isAdded = false;
 
+        Collection<Course> allCourses = courseDao.findAll();
+        List<CourseView> courseList  = converters.coursesToCourseViews(allCourses);
+
+        for (CourseView c : courseList) {
+            if (c.getId() == courseId) {
+                //todo enroll student
+                isAdded = true;
+            }
+        }
+
         return isAdded;
     }
 
@@ -171,9 +183,16 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" Invalid id value ");
         }
         if (id > 0) {
-            System.out.println(" Find by id ");
+            Collection<Course> allCourses = courseDao.findAll();
+            List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
+
+
+            for (CourseView c: covList) {
+                if (c.getId() == id) {
+                    return c;
+                }
+            }
         }
-        //CourseView cov = new CourseView();
 
         return null;
     }
