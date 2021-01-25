@@ -18,6 +18,7 @@ import se.lexicon.course_manager_assignment.model.Student;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -150,6 +151,7 @@ public class CourseManager implements CourseService {
         for (CourseView c : courseList) {
             if (c.getId() == courseId) {
                 //todo enroll student
+                //courseDao.
                 isAdded = true;
             }
         }
@@ -230,6 +232,19 @@ public class CourseManager implements CourseService {
         }
 
         boolean isDeleted = false;
+
+        Collection<Course> allCourses = courseDao.findAll();
+        List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
+
+        Iterator<CourseView> iterator = covList.iterator();
+
+        while (iterator.hasNext()) {
+            CourseView result = iterator.next();
+            if (result.getId() == id) {
+                iterator.remove();
+                isDeleted = true;
+            }
+        }
 
         return isDeleted;
     }
