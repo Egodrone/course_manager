@@ -121,9 +121,9 @@ public class StudentManager implements StudentService {
 
     @Override
     public List<StudentView> findAll() {
-        List<StudentView> result = new ArrayList<>();
+        Collection<Student> result = studentDao.findAll();
 
-        return null;
+        return converters.studentsToStudentViews(result);
     }
 
 
@@ -131,13 +131,12 @@ public class StudentManager implements StudentService {
     @Override
     public boolean deleteStudent(int id) {
 
-        if (id <= 0) {
+        if (id < 1) {
             throw new IllegalArgumentException(" Invalid id value ");
         }
 
-        boolean isDeleted = false;
-
-        return isDeleted;
+        Student removeStudent = studentDao.findById(id);
+        return studentDao.removeStudent(removeStudent);
     }
 
 
