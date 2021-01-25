@@ -129,6 +129,22 @@ public class CourseCollectionRepositoryTest {
 
 
     @Test
+    public void test_findByDateAfter() {
+        LocalDate date = LocalDate.parse("2001-01-13", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate date2 = LocalDate.parse("2021-01-19", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate testDate = LocalDate.parse("2009-01-20", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        testObject.createCourse("Java", date, 15);
+        testObject.createCourse("Python", date2, 10);
+
+        Collection<Course> courseB = testObject.findByDateAfter(testDate);
+        String expectedStr = "[Course{id=2, courseName='Python', startDate=2021-01-19, weekDuration=10, students=[]}]";
+        assertEquals(1, courseB.size());
+        assertEquals(expectedStr, courseB.toString());
+    }
+
+
+
+    @Test
     public void test_findByStudentId() {
         Collection<Student> students = new HashSet<>();
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -170,22 +186,6 @@ public class CourseCollectionRepositoryTest {
         assertTrue(test);
         actual = testObject.findAll();
         assertEquals(0, actual.size());
-    }
-
-
-
-    @Test
-    public void test_findByDateAfter() {
-        LocalDate date = LocalDate.parse("2001-01-13", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate date2 = LocalDate.parse("2021-01-19", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate testDate = LocalDate.parse("2009-01-20", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        testObject.createCourse("Java", date, 15);
-        testObject.createCourse("Python", date2, 10);
-
-        Collection<Course> courseB = testObject.findByDateAfter(testDate);
-        String expectedStr = "[Course{id=2, courseName='Python', startDate=2021-01-19, weekDuration=10, students=[]}]";
-        assertEquals(1, courseB.size());
-        assertEquals(expectedStr, courseB.toString());
     }
 
 
