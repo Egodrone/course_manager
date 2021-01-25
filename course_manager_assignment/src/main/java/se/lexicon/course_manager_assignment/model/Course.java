@@ -2,7 +2,6 @@ package se.lexicon.course_manager_assignment.model;
 
 
 
-import se.lexicon.course_manager_assignment.data.sequencers.CourseSequencer;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -19,13 +18,11 @@ public class Course {
 
 
     public Course() {
-       //this.id = CourseSequencer.nextCourseId();
     }
 
 
 
     public Course(String courseName, LocalDate startDate, int weekDuration, Collection<Student> students) {
-        //this.id = CourseSequencer.nextCourseId();
         this.courseName = courseName;
         this.startDate = startDate;
         this.weekDuration = weekDuration;
@@ -35,11 +32,9 @@ public class Course {
 
 
     public Course(String courseName, LocalDate startDate, int weekDuration) {
-        //this.id = CourseSequencer.nextCourseId();
         this.courseName = courseName;
         this.startDate = startDate;
         this.weekDuration = weekDuration;
-        //this.students = students;
     }
 
 
@@ -51,6 +46,7 @@ public class Course {
         this.weekDuration = weekDuration;
         this.students = students;
     }
+
 
 
     public Course(int id, String courseName, LocalDate startDate, int weekDuration) {
@@ -119,11 +115,6 @@ public class Course {
     public boolean enrollStudent(Student student) {
         boolean status = false;
 
-        if (student == null) {
-            throw new IllegalArgumentException(" Student object is null ");
-        } else if (student.getId() <= 0) {
-            throw new IllegalArgumentException(" Student id is not valid ");
-        }
         if (student.getId() > 0) {
             students.add(student);
             status = true;
@@ -138,11 +129,13 @@ public class Course {
         boolean isDelete = false;
         Iterator<Student> iterator = students.iterator();
 
-        while (iterator.hasNext()) {
-            Student result = iterator.next();
-            if (result.equals(student)) {
-                iterator.remove();
-                isDelete = true;
+        if (student != null) {
+            while (iterator.hasNext()) {
+                Student result = iterator.next();
+                if (result.equals(student)) {
+                    iterator.remove();
+                    isDelete = true;
+                }
             }
         }
 
