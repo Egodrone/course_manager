@@ -22,11 +22,16 @@ public class StudentCollectionRepository implements StudentDao {
 
     @Override
     public Student createStudent(String name, String email, String address) {
-        int id = StudentSequencer.nextStudentId();
-        Student s1 = new Student(id, name, email, address);
-        students.add(s1);
 
-        return s1;
+        if (!name.equals("") && !email.equals("") && !address.equals("")) {
+            int id = StudentSequencer.nextStudentId();
+            Student s1 = new Student(id, name, email, address);
+            students.add(s1);
+
+            return s1;
+        }
+
+        return null;
     }
 
 
@@ -34,9 +39,11 @@ public class StudentCollectionRepository implements StudentDao {
     @Override
     public Student findByEmailIgnoreCase(String email) {
 
-        for (Student s : students) {
-            if (s.getEmail().equalsIgnoreCase(email)) {
-                return s;
+        if (!email.equals("")) {
+            for (Student s : students) {
+                if (s.getEmail().equalsIgnoreCase(email)) {
+                    return s;
+                }
             }
         }
 
@@ -49,9 +56,11 @@ public class StudentCollectionRepository implements StudentDao {
     public Collection<Student> findByNameContains(String name) {
         Collection<Student> result = new HashSet<>();
 
-        for (Student s : students) {
-            if (s.getName().contains(name)) {
-                result.add(s);
+        if (!name.equals("")) {
+            for (Student s : students) {
+                if (s.getName().contains(name)) {
+                    result.add(s);
+                }
             }
         }
 
@@ -63,9 +72,11 @@ public class StudentCollectionRepository implements StudentDao {
     @Override
     public Student findById(int id) {
 
-        for (Student s : students) {
-            if (s.getId() == id) {
-                return s;
+        if (id > 0) {
+            for (Student s : students) {
+                if (s.getId() == id) {
+                    return s;
+                }
             }
         }
 
@@ -91,13 +102,15 @@ public class StudentCollectionRepository implements StudentDao {
     public boolean removeStudent(Student student) {
         boolean isDelete = false;
 
-        Iterator<Student> iterator = students.iterator();
+        if (student != null) {
+            Iterator<Student> iterator = students.iterator();
 
-        while (iterator.hasNext()) {
-            Student result = iterator.next();
-            if (result.equals(student)) {
-                iterator.remove();
-                isDelete = true;
+            while (iterator.hasNext()) {
+                Student result = iterator.next();
+                if (result.equals(student)) {
+                    iterator.remove();
+                    isDelete = true;
+                }
             }
         }
 
