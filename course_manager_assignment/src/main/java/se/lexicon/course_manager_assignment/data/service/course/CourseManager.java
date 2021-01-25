@@ -72,8 +72,8 @@ public class CourseManager implements CourseService {
             courseDao.removeCourse(tmpCourse);
             Course updatedCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
             System.out.println("createdCourse.getId() = " + updatedCourse.getId());
-            CourseView convertedCourse = converters.courseToCourseView(updatedCourse);
-            return convertedCourse;
+            //CourseView convertedCourse = converters.courseToCourseView(updatedCourse);
+            return converters.courseToCourseView(updatedCourse);
         }
 
         return null;
@@ -110,11 +110,9 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" LocalDate end is null ");
         }
 
+        Collection<Course> allCourses = courseDao.findByDateBefore(end);
 
-
-        List<CourseView> covList = new ArrayList<>();
-
-        return covList;
+        return converters.coursesToCourseViews(allCourses);
     }
 
 
@@ -126,9 +124,9 @@ public class CourseManager implements CourseService {
             throw new IllegalArgumentException(" LocalDate start is null ");
         }
 
-        List<CourseView> covList = new ArrayList<>();
+        Collection<Course> allCourses = courseDao.findByDateAfter(start);
 
-        return covList;
+        return converters.coursesToCourseViews(allCourses);
     }
 
 
