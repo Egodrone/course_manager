@@ -45,7 +45,6 @@ public class ModelToDtoTest {
 
     @Test
     public void test_studentToStudentView() {
-        ModelToDto mtd = new ModelToDto();
         Collection<Student> students = new HashSet<>();
         StudentCollectionRepository studentRepository = new StudentCollectionRepository(students);
         Student s1 = studentRepository.createStudent("Rocky", "rockyBalboa@gmail.com",
@@ -78,7 +77,6 @@ public class ModelToDtoTest {
 
         assertTrue(actual && actual2);
 
-        ModelToDto mtd = new ModelToDto();
         CourseView cov = testObject.courseToCourseView(c1);
 
         assertEquals("Java", cov.getCourseName());
@@ -96,7 +94,6 @@ public class ModelToDtoTest {
         courseRepository.createCourse("Python", date, 10);
         courseRepository.createCourse("BASH", date, 30);
 
-        ModelToDto mtd = new ModelToDto();
         List<CourseView> cov = testObject.coursesToCourseViews(courses);
         assertEquals(3, cov.size());
     }
@@ -112,8 +109,6 @@ public class ModelToDtoTest {
         studentRepository.createStudent("Sven", "another@gmail.com", "New street");
         studentRepository.createStudent("Lena", "lena@gmail.com", "Robert street");
         Collection<Student> actual = studentRepository.findAll();
-
-        ModelToDto mtd = new ModelToDto();
 
         List<StudentView> stv = testObject.studentsToStudentViews(actual);
         assertEquals(3, stv.size());
