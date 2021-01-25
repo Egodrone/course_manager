@@ -16,8 +16,8 @@ import se.lexicon.course_manager_assignment.dto.forms.CreateStudentForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateStudentForm;
 import se.lexicon.course_manager_assignment.dto.views.StudentView;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
+
 
 
 @SpringBootTest(classes = {StudentManager.class, CourseCollectionRepository.class, StudentCollectionRepository.class, ModelToDto.class})
