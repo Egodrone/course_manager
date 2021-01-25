@@ -43,82 +43,65 @@ public class CourseTest {
 
     @Test
     public void test_constructor1() {
-        Course testCorse = new Course();
-        assertEquals(testCorse.getId(), 1);
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        Course testCorse = new Course(1, "Java",date, 10);
+        assertEquals( 1, testCorse.getId());
     }
 
 
 
     @Test
     public void test_constructor2() {
-        Student s1 = new Student();
-        s1.setName("Rocky");
-        s1.setEmail("rockyBalboa@gmail.com");
-        s1.setAddress("Philadelphia");
+        Student s1 = new Student(1, "Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         Collection<Student> students = new HashSet<>();
         students.add(s1);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course testCorse = new Course("Java Advanced", date, 10, students);
+        Course testCorse = new Course(1,"Java Advanced", date, 10, students);
         assertEquals(testCorse.getId(), 1);
         String expected = "[Student{id=1, name='Rocky', email='rockyBalboa@gmail.com', address='Philadelphia'}]";
-        assertEquals(testCorse.getStudents().toString(), expected);
+        assertEquals(expected, testCorse.getStudents().toString());
     }
 
 
 
     @Test
     public void test_getCourseName() {
-        Student s1 = new Student();
-        s1.setName("Rocky");
-        s1.setEmail("rockyBalboa@gmail.com");
-        s1.setAddress("Philadelphia");
+        Student s1 = new Student(1, "Rocky", "rockyBalboa@gmail.com", "Philadelphia");
         Collection<Student> students = new HashSet<>();
         students.add(s1);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course testCorse = new Course("Java Advanced", date, 10, students);
-        assertEquals(testCorse.getId(), 1);
+        Course testCorse = new Course(1,"Java Advanced", date, 10, students);
+        assertEquals(1, testCorse.getId());
         String expected = "Java Advanced";
-        assertEquals(testCorse.getCourseName(), expected);
+        assertEquals(expected, testCorse.getCourseName());
     }
 
 
 
     @Test
     public void test_getCourseName2() {
-        Student s1 = new Student();
-        s1.setName("Rocky");
-        s1.setEmail("rockyBalboa@gmail.com");
-        s1.setAddress("Philadelphia");
-        Student s2 = new Student();
-        s2.setName("Adrian");
-        s2.setEmail("adrian@gmail.com");
-        s2.setAddress("New Zealand");
+        Student s1 = new Student(1, "Rocky", "rockyBalboa@gmail.com", "Philadelphia");
+        Student s2 = new Student(2, "Adrian", "adrian@gmail.com", "New Zealand");
         Collection<Student> students = new HashSet<>();
         students.add(s1);
         students.add(s2);
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course testCorse = new Course("Java Advanced", date, 10, students);
-        assertEquals(testCorse.getId(), 1);
+        Course testCourse = new Course(1,"Java Advanced", date, 10, students);
+        assertEquals(1, testCourse.getId());
         String expected = "Java Advanced";
-        for (Student s : students) {
-            System.out.println(s.toString());
-        }
-        assertEquals(testCorse.getCourseName(), expected);
+        assertEquals(expected, testCourse.getCourseName());
     }
 
 
 
     @Test
     public void test_enrollStudent() {
-        Student s1 = new Student();
-        s1.setName("Stefan");
-        s1.setEmail("Stefan@gmail.com");
-        s1.setAddress("Test street");
+        Student s1 = new Student(1, "Stefan", "Stefan@gmail.com", "Test street");
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course course = new Course("CSS", date, 10);
+        Course course = new Course(1,"CSS", date, 10);
         boolean actual = course.enrollStudent(s1);
         assertTrue(actual);
-        assertEquals(course.getCourseName(), "CSS");
+        assertEquals("CSS", course.getCourseName());
     }
 
 
@@ -126,12 +109,9 @@ public class CourseTest {
     @Test
     public void test_unenrollStudent() {
 
-        Student s1 = new Student();
-        s1.setName("Erik");
-        s1.setEmail("erik@gmail.com");
-        s1.setAddress("Erik street");
+        Student s1 = new Student(1, "Erik", "erik@gmail.com", "Erik street");
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        Course course = new Course("Python3", date, 10);
+        Course course = new Course(1, "Python3", date, 10);
         boolean actual = course.enrollStudent(s1);
 
         //add student to the course
