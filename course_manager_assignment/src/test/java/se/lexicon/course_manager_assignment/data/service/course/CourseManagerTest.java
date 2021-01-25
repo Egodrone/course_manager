@@ -138,6 +138,19 @@ public class CourseManagerTest {
 
     @Test
     public void test_findById() {
+        // Create Course Form Object
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form = new CreateCourseForm(0, "Java", date, 10);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date, 12);
+        CreateCourseForm form3 = new CreateCourseForm(0, "Cpp", date, 12);
+        CourseView cv = testObject.create(form);
+        testObject.create(form2);
+        testObject.create(form3);
+        assertEquals(form.getCourseName(), cv.getCourseName());
+
+        // Find by id
+        CourseView actual = testObject.findById(2);
+        assertEquals(form2.getCourseName(), actual.getCourseName());
 
     }
 
