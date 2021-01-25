@@ -44,15 +44,13 @@ public class CourseManager implements CourseService {
     @Override
     public CourseView create(CreateCourseForm form) {
 
-        if (form == null) {
-            throw new IllegalArgumentException(" Form object is null ");
+        if (form != null) {
+            Course createdCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
+
+            return converters.courseToCourseView(createdCourse);
         }
 
-        Course createdCourse = courseDao.createCourse(form.getCourseName(), form.getStartDate(), form.getWeekDuration());
-        System.out.println("createdCourse.getId() = " + createdCourse.getId());
-        CourseView convertedCourse = converters.courseToCourseView(createdCourse);
-
-        return convertedCourse;
+        return null;
     }
 
 
@@ -60,17 +58,17 @@ public class CourseManager implements CourseService {
     @Override
     public CourseView update(UpdateCourseForm form) {
 
-        if (form == null) {
-            throw new IllegalArgumentException(" Form object is null ");
-        }
+        if (form != null) {
 
-        if (form.getId() > 0) {
-            Course updateCourse = courseDao.findById(form.getId());
-            updateCourse.setCourseName(form.getCourseName());
-            updateCourse.setStartDate(form.getStartDate());
-            updateCourse.setWeekDuration(form.getWeekDuration());
+            if (form.getId() > 0) {
+                Course updateCourse = courseDao.findById(form.getId());
+                updateCourse.setCourseName(form.getCourseName());
+                updateCourse.setStartDate(form.getStartDate());
+                updateCourse.setWeekDuration(form.getWeekDuration());
 
-            return converters.courseToCourseView(updateCourse);
+                return converters.courseToCourseView(updateCourse);
+            }
+
         }
 
         return null;
@@ -81,21 +79,21 @@ public class CourseManager implements CourseService {
     @Override
     public List<CourseView> searchByCourseName(String courseName) {
 
-        if (courseName == null) {
-            throw new IllegalArgumentException(" String courseName is null ");
-        }
+        if (courseName != null) {
+            Collection<Course> allCourses = courseDao.findAll();
+            List<CourseView> covList = converters.coursesToCourseViews(allCourses);
+            List<CourseView> result = new ArrayList<>();
 
-        Collection<Course> allCourses = courseDao.findAll();
-        List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
-        List<CourseView> result = new ArrayList<>();
-
-        for (CourseView c: covList) {
-            if (c.getCourseName().equalsIgnoreCase(courseName)) {
-                result.add(c);
+            for (CourseView c : covList) {
+                if (c.getCourseName().equalsIgnoreCase(courseName)) {
+                    result.add(c);
+                }
             }
+
+            return result;
         }
 
-        return result;
+        return null;
     }
 
 
@@ -103,13 +101,13 @@ public class CourseManager implements CourseService {
     @Override
     public List<CourseView> searchByDateBefore(LocalDate end) {
 
-        if (end == null) {
-            throw new IllegalArgumentException(" LocalDate end is null ");
+        if (end != null) {
+            Collection<Course> allCourses = courseDao.findByDateBefore(end);
+
+            return converters.coursesToCourseViews(allCourses);
         }
 
-        Collection<Course> allCourses = courseDao.findByDateBefore(end);
-
-        return converters.coursesToCourseViews(allCourses);
+        return null;
     }
 
 
@@ -117,13 +115,13 @@ public class CourseManager implements CourseService {
     @Override
     public List<CourseView> searchByDateAfter(LocalDate start) {
 
-        if (start == null) {
-            throw new IllegalArgumentException(" LocalDate start is null ");
+        if (start != null) {
+            Collection<Course> allCourses = courseDao.findByDateAfter(start);
+
+            return converters.coursesToCourseViews(allCourses);
         }
 
-        Collection<Course> allCourses = courseDao.findByDateAfter(start);
-
-        return converters.coursesToCourseViews(allCourses);
+        return null;
     }
 
 
@@ -131,27 +129,11 @@ public class CourseManager implements CourseService {
     @Override
     public boolean addStudentToCourse(int courseId, int studentId) {
 
-        if (courseId <= 0) {
-            throw new IllegalArgumentException(" courseId is not valid ");
-        }
-        if (studentId <= 0) {
-            throw new IllegalArgumentException(" studentId is not valid ");
+        if (courseId > 0 && studentId > 0) {
+            return courseDao.findById(courseId).enrollStudent(studentDao.findById(studentId));
         }
 
-        boolean isAdded = false;
-
-        Collection<Course> allCourses = courseDao.findAll();
-        List<CourseView> courseList  = converters.coursesToCourseViews(allCourses);
-
-        for (CourseView c : courseList) {
-            if (c.getId() == courseId) {
-                //todo enroll student
-                //courseDao.
-                isAdded = true;
-            }
-        }
-
-        return isAdded;
+        return false;
     }
 
 
@@ -159,16 +141,11 @@ public class CourseManager implements CourseService {
     @Override
     public boolean removeStudentFromCourse(int courseId, int studentId) {
 
-        if (courseId <= 0) {
-            throw new IllegalArgumentException(" courseId is not valid ");
-        }
-        if (studentId <= 0) {
-            throw new IllegalArgumentException(" studentId is not valid ");
+        if (courseId > 0 && studentId > 0) {
+            return courseDao.findById(courseId).unenrollStudent(studentDao.findById(studentId));
         }
 
-        boolean isRemoved = false;
-
-        return isRemoved;
+        return false;
     }
 
 
@@ -176,13 +153,9 @@ public class CourseManager implements CourseService {
     @Override
     public CourseView findById(int id) {
 
-        if (id <= 0) {
-            throw new IllegalArgumentException(" Invalid id value ");
-        }
         if (id > 0) {
             Collection<Course> allCourses = courseDao.findAll();
             List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
-
 
             for (CourseView c: covList) {
                 if (c.getId() == id) {
@@ -198,9 +171,7 @@ public class CourseManager implements CourseService {
 
     @Override
     public List<CourseView> findAll() {
-        Collection<Course> allCourses = courseDao.findAll();
-
-        return converters.coursesToCourseViews(allCourses);
+        return converters.coursesToCourseViews(courseDao.findAll());
     }
 
 
@@ -208,13 +179,11 @@ public class CourseManager implements CourseService {
     @Override
     public List<CourseView> findByStudentId(int studentId) {
 
-        if (studentId <= 0) {
-            throw new IllegalArgumentException(" Invalid studentId value ");
+        if (studentId > 0) {
+            return converters.coursesToCourseViews(courseDao.findByStudentId(studentId));
         }
 
-        List<CourseView> cov = new ArrayList<>();
-
-        return cov;
+        return null;
     }
 
 
@@ -222,26 +191,11 @@ public class CourseManager implements CourseService {
     @Override
     public boolean deleteCourse(int id) {
 
-        if (id <= 0) {
-            throw new IllegalArgumentException(" Invalid id value ");
+        if (id > 0) {
+            return courseDao.removeCourse(courseDao.findById(id));
         }
 
-        boolean isDeleted = false;
-
-        Collection<Course> allCourses = courseDao.findAll();
-        List<CourseView> covList  = converters.coursesToCourseViews(allCourses);
-
-        Iterator<CourseView> iterator = covList.iterator();
-
-        while (iterator.hasNext()) {
-            CourseView result = iterator.next();
-            if (result.getId() == id) {
-                iterator.remove();
-                isDeleted = true;
-            }
-        }
-
-        return isDeleted;
+        return false;
     }
 
 
