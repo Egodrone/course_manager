@@ -8,4 +8,4 @@ ____________
 * Java version 8 or higher.
 
 ## :droplet: Testing
-Junit
+Unit testing framework: JUnit
