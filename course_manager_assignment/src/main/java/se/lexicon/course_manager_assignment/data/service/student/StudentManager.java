@@ -123,6 +123,7 @@ public class StudentManager implements StudentService {
 
         if (id > 0) {
             Student removeStudent = studentDao.findById(id);
+
             return studentDao.removeStudent(removeStudent);
         }
 
