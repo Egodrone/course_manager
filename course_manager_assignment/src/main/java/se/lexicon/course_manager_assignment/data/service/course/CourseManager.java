@@ -127,6 +127,10 @@ public class CourseManager implements CourseService {
     public boolean addStudentToCourse(int courseId, int studentId) {
 
         if (courseId > 0 && studentId > 0) {
+            //System.out.println("Passed student id: " + studentId);
+            System.out.println(courseDao.findById(courseId));
+            System.out.println(studentDao.findById(studentId));
+            System.out.println(studentDao.findAll());
             return courseDao.findById(courseId).enrollStudent(studentDao.findById(studentId));
         }
 
