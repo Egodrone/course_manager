@@ -90,13 +90,9 @@ public class CourseCollectionRepository implements CourseDao {
                 System.out.println(" End date: " + setDate);
 
                 int diff = setDate.compareTo(end);
-                if (diff > 0) {
-                    System.out.println(setDate + " is after than " + end);
-                } else if (diff < 0) {
-                    System.out.println(setDate + " is before than " + end);
+                if (diff < 0) {
+                    //System.out.println(setDate + " is before than " + end);
                     result.add(c);
-                } else {
-                    System.out.println(setDate + " is equal to " + end);
                 }
             }
 
@@ -120,12 +116,8 @@ public class CourseCollectionRepository implements CourseDao {
 
                 int diff = setDate.compareTo(start);
                 if (diff > 0) {
-                    System.out.println(setDate + " is after than " + start);
+                    //System.out.println(setDate + " is after than " + start);
                     result.add(c);
-                } else if (diff < 0) {
-                    System.out.println(setDate + " is before than " + start);
-                } else {
-                    System.out.println(setDate + " is equal to " + start);
                 }
             }
 
