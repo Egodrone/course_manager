@@ -10,9 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import se.lexicon.course_manager_assignment.data.dao.CourseCollectionRepository;
 import se.lexicon.course_manager_assignment.data.dao.CourseDao;
 import se.lexicon.course_manager_assignment.data.dao.StudentCollectionRepository;
-import se.lexicon.course_manager_assignment.data.dao.StudentDao;
 import se.lexicon.course_manager_assignment.data.sequencers.CourseSequencer;
-import se.lexicon.course_manager_assignment.data.service.converter.Converters;
 import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
 import se.lexicon.course_manager_assignment.data.service.student.StudentManager;
 import se.lexicon.course_manager_assignment.data.service.student.StudentService;
@@ -20,22 +18,15 @@ import se.lexicon.course_manager_assignment.dto.forms.CreateCourseForm;
 import se.lexicon.course_manager_assignment.dto.forms.CreateStudentForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateCourseForm;
 import se.lexicon.course_manager_assignment.dto.views.CourseView;
-import se.lexicon.course_manager_assignment.dto.views.StudentView;
-import se.lexicon.course_manager_assignment.model.Course;
-import se.lexicon.course_manager_assignment.model.Student;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-//StudentManager class
+
 @SpringBootTest(classes = {StudentManager.class, CourseManager.class, CourseCollectionRepository.class, ModelToDto.class, StudentCollectionRepository.class})
 public class CourseManagerTest {
 
@@ -51,7 +42,6 @@ public class CourseManagerTest {
 
 
 
-    //a
     @Autowired
     private StudentService testService;
 
@@ -104,7 +94,7 @@ public class CourseManagerTest {
         LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
         CreateCourseForm form2 = new CreateCourseForm(0, "Python", date, 20);
-        CourseView cv = testObject.create(form1);
+        testObject.create(form1);
         CourseView cv2 = testObject.create(form2);
         List<CourseView> courseViewList = testObject.searchByCourseName("Python");
         List<CourseView> expected = new ArrayList<>();
@@ -166,7 +156,19 @@ public class CourseManagerTest {
 
     @Test
     public void test_removeStudentFromCourse() {
+        LocalDate date = LocalDate.parse("2021-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate date2 = LocalDate.parse("2025-01-21", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        CreateCourseForm form1 = new CreateCourseForm(0, "Java", date, 30);
+        CreateCourseForm form2 = new CreateCourseForm(0, "Python", date2, 20);
+        testObject.create(form1);
+        testObject.create(form2);
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        testService.create(studentForm);
+        boolean testAddStudent = testObject.addStudentToCourse(1, 1);
+        assertTrue(testAddStudent);
 
+        boolean testRemoveStudent = testObject.removeStudentFromCourse(1, 1);
+        assertTrue(testRemoveStudent);
     }
 
 
