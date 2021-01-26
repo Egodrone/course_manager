@@ -14,6 +14,8 @@ import se.lexicon.course_manager_assignment.data.dao.StudentDao;
 import se.lexicon.course_manager_assignment.data.sequencers.CourseSequencer;
 import se.lexicon.course_manager_assignment.data.service.converter.Converters;
 import se.lexicon.course_manager_assignment.data.service.converter.ModelToDto;
+import se.lexicon.course_manager_assignment.data.service.student.StudentManager;
+import se.lexicon.course_manager_assignment.data.service.student.StudentService;
 import se.lexicon.course_manager_assignment.dto.forms.CreateCourseForm;
 import se.lexicon.course_manager_assignment.dto.forms.CreateStudentForm;
 import se.lexicon.course_manager_assignment.dto.forms.UpdateCourseForm;
@@ -33,8 +35,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-
-@SpringBootTest(classes = {CourseManager.class, CourseCollectionRepository.class, ModelToDto.class, StudentCollectionRepository.class})
+//StudentManager class
+@SpringBootTest(classes = {StudentManager.class, CourseManager.class, CourseCollectionRepository.class, ModelToDto.class, StudentCollectionRepository.class})
 public class CourseManagerTest {
 
 
@@ -46,6 +48,12 @@ public class CourseManagerTest {
 
     @Autowired
     private CourseDao courseDao;
+
+
+
+    //a
+    @Autowired
+    private StudentService testService;
 
 
 
@@ -147,11 +155,11 @@ public class CourseManagerTest {
         CreateCourseForm form2 = new CreateCourseForm(0, "Python", date2, 20);
         testObject.create(form1);
         testObject.create(form2);
-
-        //CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
-        //StudentView testStudent = student.create(studentForm);
-        //boolean testAddStudent = testObject.addStudentToCourse(2, 1);
-        //System.out.println(testAddStudent);
+        CreateStudentForm studentForm = new CreateStudentForm(0, "Joe", "joe@gmail.com", "New Zealand");
+        testService.create(studentForm);
+        boolean testAddStudent = testObject.addStudentToCourse(1, 1);
+        System.out.println(testAddStudent);
+        assertTrue(testAddStudent);
     }
 
 
